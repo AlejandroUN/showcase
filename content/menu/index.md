@@ -3,7 +3,7 @@ headless: true
 ---
 
 - **Shortcodes**
-- [p5]({{< relref "/docs/shortcodes/p5" >}})
+<!-- - [p5]({{< relref "/docs/shortcodes/p5" >}}) -->
 <!-- - [Buttons]({{< relref "/docs/shortcodes/buttons" >}})
 - [Columns]({{< relref "/docs/shortcodes/columns" >}})
 - [Expand]({{< relref "/docs/shortcodes/expand" >}})
@@ -12,6 +12,7 @@ headless: true
 - [Mermaid]({{< relref "/docs/shortcodes/mermaid" >}})
 - [Tabs]({{< relref "/docs/shortcodes/tabs" >}}) -->
 - [Solids]({{< relref "/docs/shortcodes/solids" >}})
-- [Ishihara] ({{< relref "/docs/shortcodes/ishihara" >}})
+- [Blindness] ({{< relref "/docs/shortcodes/blindness" >}})
+- [LOG] ({{< relref "/docs/shortcodes/log" >}})
 
 <br />

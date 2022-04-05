@@ -1,6 +1,6 @@
 baseURL = "https://AlejandroUN.github.io/"
 languageCode = "en-us"
-title = "Diego and Alejandro Template"
+title = "Visual Computing"
 theme = 'book'
 
 # Book configuration
