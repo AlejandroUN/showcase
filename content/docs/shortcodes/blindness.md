@@ -56,7 +56,7 @@ The Ishihara test for color blindness is named after a Japanese ophthalmologist 
 <!-- [Color Blindness Test](https://colab.research.google.com/drive/14nd0uXf72M-mwj_aK54YkWyB1rQZBjXv) -->
 [![Color Blindness Test](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/14nd0uXf72M-mwj_aK54YkWyB1rQZBjXv)
 
-{{< p5-iframe  lib1="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/ishiharaTest.js" width="660" height="460">}}
+{{< p5-iframe sketch="/sketches/ishiharaTest.js" width="660" height="460">}}
 
 ## **Conclusions & future work**
 

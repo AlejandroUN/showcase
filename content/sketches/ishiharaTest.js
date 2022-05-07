@@ -1,6 +1,6 @@
 let img00, img01, img02, img03, img04, img05, img06, img07, img08, img09, img10, img11, img12;
 let images, curImage, curNumber, circles, unanswered, correct, wrong;
-let i = 13, points = 0;
+let i = 0, points = 0;
 let correctAnswers = [12, 74, 6, 16, 2, 29, 7, 45, 5, 97, 8, 42, 3];
 let c00, c01, c02, c03, c04, c05, c06, c07, c08, c09, c10, c11, c12;
 let circleColors = [];
