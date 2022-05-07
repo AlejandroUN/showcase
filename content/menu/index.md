@@ -13,6 +13,7 @@ headless: true
 - [Tabs]({{< relref "/docs/shortcodes/tabs" >}}) -->
 - [Solids]({{< relref "/docs/shortcodes/solids" >}})
 - [Blindness] ({{< relref "/docs/shortcodes/blindness" >}})
+- [`Main Spaces`] ({{< relref "/docs/shortcodes/mainSpaces" >}})
 - [LOG] ({{< relref "/docs/shortcodes/log" >}})
 
 <br />
