@@ -14,6 +14,7 @@ headless: true
 - [Solids]({{< relref "/docs/shortcodes/solids" >}})
 - [Blindness] ({{< relref "/docs/shortcodes/blindness" >}})
 - [`Main Spaces`] ({{< relref "/docs/shortcodes/mainSpaces" >}})
+- [Rasterization] ({{< relref "/docs/shortcodes/Rasterization" >}})
 - [LOG] ({{< relref "/docs/shortcodes/log" >}})
 
 <br />
