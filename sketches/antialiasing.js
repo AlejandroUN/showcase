@@ -36,13 +36,13 @@ function setup() {
     
     quadrille = createQuadrille(COLS, ROWS);
 
-    for (let i = 0; i < ROWS; i++) {
-      let tempRow = []
-      for (let j = 0; j < COLS; j++) {
-        tempRow.push(createQuadrille(SUBCELLS, SUBCELLS))
-      }
-      subquadrille.push(tempRow)
-    }
+    // for (let i = 0; i < ROWS; i++) {
+    //   let tempRow = []
+    //   for (let j = 0; j < COLS; j++) {
+    //     tempRow.push(createQuadrille(SUBCELLS, SUBCELLS))
+    //   }
+    //   subquadrille.push(tempRow)
+    // }
     
     v0color = createColorPicker(color('red'));
     v1color = createColorPicker(color('green'));
@@ -144,7 +144,7 @@ function colorizeTriangle(){
   for (let i = 0; i < ROWS; i++) {
     for (let j = 0; j < COLS; j++) {
       translate(LENGTH*j, LENGTH*i)
-      drawQuadrille(subquadrille[i][j], { cellLength: LENGTH/SUBCELLS, outlineWeight: 0.02, outline: 'white', board: false });
+      // drawQuadrille(subquadrille[i][j], { cellLength: LENGTH/SUBCELLS, outlineWeight: 0.02, outline: 'white', board: false });
       // subquadrille.fill(0,0, color('black'))
       count = 0
       let p = i.toString()+"_"+j.toString()
