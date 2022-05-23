@@ -1,11 +1,3 @@
-# Main Spaces
-
-<details>
-<summary>
-treeLocation SCREEN to WORLD
-</summary>
-
-```JavaScript:/sketches/3dbrush.js
 // Goal in the 3d Brush is double, to implement:
 // 1. a gesture parser to deal with depth, i.e.,
 // replace the depth slider with somehing really
@@ -30,6 +22,11 @@ let escorzo = true;
 let points;
 let record;
 
+//ml5 variables
+let handpose;
+let video;
+let hands = [];
+
 function setup() {
   createCanvas(600, 450, WEBGL);
   // easycam stuff
@@ -51,6 +48,21 @@ function setup() {
   color.position(width - 70, 40);
   // select initial brush
   brush = sphereBrush;
+
+  //Activate video
+  video = createCapture(VIDEO);
+  video.size(width, height);
+
+  handpose = ml5.handpose(video, modelReady);
+
+  // This sets up an event that fills the global variable "predictions"
+  // with an array every time new hand poses are detected
+  handpose.on("hand", results => {
+    hands = results;
+  });
+
+  // Hide the video element, and just show the canvas
+  //video.hide();
 }
 
 function draw() {
@@ -64,22 +76,40 @@ function draw() {
   axes();
   for (const point of points) {
     push();
-    translate(point.worldPosition);
+    translate(point.worldPosition);	
     brush(point);
     pop();
   }
+
+  //drawKeypoints();
+}
+
+function modelReady() {
+	console.log("Model ready!");
 }
 
 function update() {
+	let handDistance = 0
+	for (let i = 0; i < hands.length; i += 1) {
+		const hand = hands[i];		
+		const keypoint = hand.landmarks[20];
+		fill(0, 255, 0);
+		noStroke();
+		handDistance = keypoint[2]
+	  }
+	  let m = map(handDistance, -100, 20, 0, 1);
   let dx = abs(mouseX - pmouseX);
   let dy = abs(mouseY - pmouseY);
+  //console.log("x " + mouseX);
+  //console.log("y " + mouseY);
   speed = constrain((dx + dy) / (2 * (width - height)), 0, 1);
   if (record) {
     points.push({
-      worldPosition: treeLocation([mouseX, mouseY, depth.value()], { from: 'SCREEN', to: 'WORLD' }),
+      worldPosition: treeLocation([mouseX, mouseY, m], { from: 'SCREEN', to: 'WORLD' }),
       color: color.color(),
       speed: speed
     });
+	console.log(m)	
   }
 }
 
@@ -106,14 +136,24 @@ function keyPressed() {
   }
 }
 
-```
-
-</details>
-
-<!-- {{< p5-iframe  lib1="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib2="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/3dbrush.js" width="625" height="475">}} -->
-
-<!-- {{< p5-iframe  lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib2="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/handPose.js" width="625" height="475">}} -->
-
-{{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHand.js" width="625" height="475">}}
-
-<!-- {{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHoleHand.js" width="625" height="475">}} -->
+// A function to draw ellipses over the detected keypoints
+//function drawKeypoints() {
+//  for (let i = 0; i < hands.length; i += 1) {
+//    const hand = hands[i];
+//	//console.log(i)
+//    for (let j = 0; j < hand.landmarks.length; j += 1) {
+//      const keypoint = hand.landmarks[j];
+//	  //console.log(j)
+//      fill(0, 255, 0);
+//      noStroke();
+//	  //console.log(keypoint[0])
+//	  if (j == 20) {
+//		//depth = keypoint[2]
+//		//console.log(keypoint[2])
+//	  } else {
+//		
+//	  }	  
+//      //ellipse(keypoint[0], keypoint[1], 10, 10);
+//    }
+//  }
+//}
