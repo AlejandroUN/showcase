@@ -80,8 +80,10 @@ function sphereBrush(point) {
   noStroke();
   // TODO parameterize sphere radius and / or
   // alpha channel according to gesture speed
+  //print(point.color.setAlpha(128 + 128 * sin(millis() / 1000)));
+  print(point.color);
   fill(point.color);
-  sphere(1);
+  sphere(5);
   pop();
 }
 

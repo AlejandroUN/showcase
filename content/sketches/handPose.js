@@ -1,6 +1,17 @@
 let handpose;
 let video;
 let hands = [];
+let zeroPoint = [0,0];
+let onePoint = [0,0];
+let eightPoint = [0,0];
+let twelvePoint = [0,0];
+let sixteenPoint = [0,0];
+let twentyPoint = [0,0];
+let oneDifference = 0
+let twoDifference = 0
+let threeDifference = 0
+let fourthDifference = 0
+let holeDifference = 0
 
 function setup() {
   createCanvas(640, 480);
@@ -38,15 +49,32 @@ function drawKeypoints() {
 	//console.log(i)
     for (let j = 0; j < hand.landmarks.length; j += 1) {
       const keypoint = hand.landmarks[j];
-	  console.log(j)
+	  
       fill(0, 255, 0);
       noStroke();
 	  //console.log(keypoint[0])
-	  if (j == 20) {
-		console.log(keypoint[2])
-	  } else {
-		
-	  }	  
+	  if (j == 0) {
+		  //El valor de y disminuye cuando la mano sube
+		  //Hacia la izquierda de la imagen (en la vida real a la derecha de la persona) el valor de x disminuye, hacia la derecha aumenta
+		//console.log(keypoint[0])
+		zeroPoint = [keypoint[0], keypoint[1]];
+	  } else if (j == 1) {
+		onePoint = [keypoint[0], keypoint[1]];
+	  } else if (j == 8) {
+		//eightPoint = [keypoint[0], keypoint[1]];
+		oneDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
+	  } else if (j == 12) {
+		//twelvePoint = [keypoint[0], keypoint[1]];
+		twoDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
+	  } else if (j == 16) {
+		//sixteenPoint = [keypoint[0], keypoint[1]];
+		threeDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
+	  } else if (j == 20) {
+		//twentyPoint = [keypoint[0], keypoint[1]];
+		fourthDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
+	  }
+	  holeDifference = oneDifference + twoDifference + threeDifference + fourthDifference
+	  print(holeDifference)
       ellipse(keypoint[0], keypoint[1], 10, 10);
     }
   }

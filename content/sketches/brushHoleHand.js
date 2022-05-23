@@ -27,6 +27,19 @@ let handpose;
 let video;
 let hands = [];
 
+//variables to do calculations to know if the hand is open or closed
+let zeroPoint = [0,0];
+let onePoint = [0,0];
+let eightPoint = [0,0];
+let twelvePoint = [0,0];
+let sixteenPoint = [0,0];
+let twentyPoint = [0,0];
+let oneDifference = 0
+let twoDifference = 0
+let threeDifference = 0
+let fourthDifference = 0
+let holeDifference = 0
+
 function setup() {
   createCanvas(600, 450, WEBGL);
   // easycam stuff
@@ -96,32 +109,55 @@ function update() {
 	let oldHandDistancey = 0
 	let oldHandDistancez = 0	
 	for (let i = 0; i < hands.length; i += 1) {
-		const hand = hands[i];		
-		const keypoint = hand.landmarks[20];
-		fill(0, 255, 0);
-		noStroke();
+		const hand = hands[i];	
+		const keypoint = hand.landmarks[9];
 		oldHandDistancex = currentHandDistancex
 		oldHandDistancey = currentHandDistancey
 		oldHandDistancez = currentHandDistancez
 		currentHandDistancex = keypoint[0]
 		currentHandDistancey = keypoint[1]
 		currentHandDistancez = keypoint[2]
-		ellipse(currentHandDistancex, currentHandDistancey, 10, 10);
-		//console.log("x" + currentHandDistancex)
-		//console.log("y" + currentHandDistancey)
-	  }
-	  let mz = map(currentHandDistancez, -100, 20, 0, 1);
-	  let mx = map(currentHandDistancex, 0, 500, width, 0);
-	  let my = map(currentHandDistancey, 0, 300, 0, height);
+		console.log(currentHandDistancez)
+		for (let j = 0; j < hand.landmarks.length; j += 1) {
+			const keypoint = hand.landmarks[j];
+			//console.log(keypoint[0])
+			if (j == 0) {
+				//El valor de y disminuye cuando la mano sube
+				//Hacia la izquierda de la imagen (en la vida real a la derecha de la persona) el valor de x disminuye, hacia la derecha aumenta
+			  //console.log(keypoint[0])
+			  zeroPoint = [keypoint[0], keypoint[1]];
+			} else if (j == 1) {
+			  onePoint = [keypoint[0], keypoint[1]];
+			} else if (j == 8) {
+			  //eightPoint = [keypoint[0], keypoint[1]];
+			  oneDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
+			} else if (j == 12) {
+			  //twelvePoint = [keypoint[0], keypoint[1]];
+			  twoDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
+			} else if (j == 16) {
+			  //sixteenPoint = [keypoint[0], keypoint[1]];
+			  threeDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
+			} else if (j == 20) {
+			  //twentyPoint = [keypoint[0], keypoint[1]];
+			  fourthDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
+			}
+			holeDifference = oneDifference + twoDifference + threeDifference + fourthDifference
+//			print(holeDifference)
+		  }			
+	  }	  
+	  let mz = map(currentHandDistancez, -40, 10, -1, 1);
+	  let mx = map(currentHandDistancex, 200, 500, width, 0);
+	  let my = map(currentHandDistancey, 100, 300, 0, height);
 	//preguntarle esta parte al profe	
   let dx = abs(currentHandDistancex - oldHandDistancex);
   let dy = abs(currentHandDistancey - oldHandDistancey);
   speed = constrain((dx + dy) / (2 * (width - height)), 0, 1);
-  if (record) {
+  if (record) { 
     points.push({
       worldPosition: treeLocation([mx, my, mz], { from: 'SCREEN', to: 'WORLD' }),
       color: color.color(),
-      speed: speed
+      speed: speed,
+	  radius: map(holeDifference, 200, 1050, 0, 5)
     });
 	//console.log(m)	
   }
@@ -133,7 +169,7 @@ function sphereBrush(point) {
   // TODO parameterize sphere radius and / or
   // alpha channel according to gesture speed
   fill(point.color);
-  sphere(1);
+  sphere(point.radius);
   pop();
 }
 
@@ -161,12 +197,28 @@ function drawKeypoints() {
       fill(0, 255, 0);
       noStroke();
 	  //console.log(keypoint[0])
-	  if (j == 20) {
-		//depth = keypoint[2]
-		//console.log(keypoint[2])
-	  } else {
-		
-	  }	  
+	  if (j == 0) {
+		//El valor de y disminuye cuando la mano sube
+		//Hacia la izquierda de la imagen (en la vida real a la derecha de la persona) el valor de x disminuye, hacia la derecha aumenta
+	  //console.log(keypoint[0])
+	  zeroPoint = [keypoint[0], keypoint[1]];
+	} else if (j == 1) {
+	  onePoint = [keypoint[0], keypoint[1]];
+	} else if (j == 8) {
+	  //eightPoint = [keypoint[0], keypoint[1]];
+	  oneDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
+	} else if (j == 12) {
+	  //twelvePoint = [keypoint[0], keypoint[1]];
+	  twoDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
+	} else if (j == 16) {
+	  //sixteenPoint = [keypoint[0], keypoint[1]];
+	  threeDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
+	} else if (j == 20) {
+	  //twentyPoint = [keypoint[0], keypoint[1]];
+	  fourthDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
+	}
+	holeDifference = oneDifference + twoDifference + threeDifference + fourthDifference
+	print(holeDifference)
       ellipse(keypoint[0], keypoint[1], 10, 10);
     }
   }
