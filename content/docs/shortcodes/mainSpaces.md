@@ -1,23 +1,41 @@
-# Main Spaces
+# **Main Spaces 3D Brush Based using a Camera**
+
+## **Introduction**
+
+A 3d brush was implemented using the concepts of scene trees using the p5.treegl library and the handPose ml5 library.
+
+## **Background**
+
+- #### **Scene trees**
+
+Scene trees are a concept used for the spatial and graphical representation of a scene using matrices and a graph representation, more specifically that of a tree as the graph has no cycles.
+
+- #### **Machine Learning**
+
+Machine learning is the use and development of computer systems that are able to learn and adapt without following explicit instructions, by using algorithms and statistical models to analyse and draw inferences from patterns in data.
+
+## **Methods**
+
+To obtain the depth value using the hand we use the ml5 handpose library that provides us with 20 points along the hand
+
+<img src="../../shortcodes/resources/images/twentyPoints.jpg" alt="All Points"/>
+
+Then, to optimize the performance we only use the central point of the hand, corresponding to the one located at the knuckle of the middle finger.
+
+<img src="../../shortcodes/resources/images/singlePoint.jpg" alt="Single Point"/>
+
+To know when the hand is opened and closed and thus vary the radius of the plotted spheres we use the differences in the y-axis between the fingertips and the palm of the hand, so, every time the hand is opened this difference is greater and every time the hand is closed this difference is smaller.
+
+<img src="../../shortcodes/resources/images/openHand.jpg" alt="Open Hand"/>
+
+## **Code (solution) & results**
 
 <details>
 <summary>
-treeLocation SCREEN to WORLD
+treeLocation SCREEN to WORLD, 3d Brush using hand (using ml5 Handpose)
 </summary>
 
-```JavaScript:/sketches/3dbrush.js
-// Goal in the 3d Brush is double, to implement:
-// 1. a gesture parser to deal with depth, i.e.,
-// replace the depth slider with somehing really
-// meaningful. You may use a 3d sensor hardware
-// such as: https://en.wikipedia.org/wiki/Leap_Motion
-// or machine learning software to parse hand (or
-// body) gestures from a (video) / image, such as:
-// https://ml5js.org/
-// 2. other brushes to stylize the 3d brush, taking
-// into account its shape and alpha channler, gesture
-// speed, etc.
-
+```JavaScript:/sketches/brushHand.js
 // Brush controls
 let color;
 let depth;
@@ -29,6 +47,24 @@ let state;
 let escorzo = true;
 let points;
 let record;
+
+//ml5 variables
+let handpose;
+let video;
+let hands = [];
+
+//Variables to do calculations to know if the hand is open or closed
+let zeroPoint = [0,0];
+let onePoint = [0,0];
+let eightPoint = [0,0];
+let twelvePoint = [0,0];
+let sixteenPoint = [0,0];
+let twentyPoint = [0,0];
+let oneDifference = 0
+let twoDifference = 0
+let threeDifference = 0
+let fourthDifference = 0
+let holeDifference = 0
 
 function setup() {
   createCanvas(600, 450, WEBGL);
@@ -44,13 +80,23 @@ function setup() {
 
   // brush stuff
   points = [];
-  depth = createSlider(0, 1, 0.05, 0.05);
-  depth.position(10, 10);
-  depth.style('width', '580px');
+
   color = createColorPicker('#ed225d');
   color.position(width - 70, 40);
   // select initial brush
   brush = sphereBrush;
+
+  //Activate video
+  video = createCapture(VIDEO);
+  video.size(width, height);
+
+  handpose = ml5.handpose(video, modelReady);
+
+  // This sets up an event that fills the global variable "predictions"
+  // with an array every time new hand poses are detected
+  handpose.on("hand", results => {
+    hands = results;
+  });
 }
 
 function draw() {
@@ -70,16 +116,48 @@ function draw() {
   }
 }
 
+function modelReady() {
+	console.log("Model ready!");
+}
+
 function update() {
+	let handDistance = 0
+	for (let i = 0; i < hands.length; i += 1) {
+		const hand = hands[i];
+		const keypoint = hand.landmarks[9];
+		handDistance = keypoint[2]
+		for (let j = 0; j < hand.landmarks.length; j += 1) {
+			const keypoint = hand.landmarks[j];
+		if (j == 0) {
+			//El valor de y disminuye cuando la mano sube
+			//Hacia la izquierda de la imagen (en la vida real a la derecha de la persona) el valor de x disminuye, hacia la derecha aumenta
+		  zeroPoint = [keypoint[0], keypoint[1]];
+		} else if (j == 1) {
+		  onePoint = [keypoint[0], keypoint[1]];
+		} else if (j == 8) {
+		  oneDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
+		} else if (j == 12) {
+		  twoDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
+		} else if (j == 16) {
+		  threeDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
+		} else if (j == 20) {
+		  fourthDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
+		}
+		holeDifference = oneDifference + twoDifference + threeDifference + fourthDifference
+	  }
+	}
+	  let m = map(handDistance, -100, 20, 0, 1);
   let dx = abs(mouseX - pmouseX);
   let dy = abs(mouseY - pmouseY);
   speed = constrain((dx + dy) / (2 * (width - height)), 0, 1);
   if (record) {
     points.push({
-      worldPosition: treeLocation([mouseX, mouseY, depth.value()], { from: 'SCREEN', to: 'WORLD' }),
+      worldPosition: treeLocation([mouseX, mouseY, m], { from: 'SCREEN', to: 'WORLD' }),
       color: color.color(),
-      speed: speed
+      speed: speed,
+	  radius: map(holeDifference, 200, 1050, 0, 5)
     });
+	console.log(m)
   }
 }
 
@@ -89,7 +167,7 @@ function sphereBrush(point) {
   // TODO parameterize sphere radius and / or
   // alpha channel according to gesture speed
   fill(point.color);
-  sphere(1);
+  sphere(point.radius);
   pop();
 }
 
@@ -106,14 +184,27 @@ function keyPressed() {
   }
 }
 
+
 ```
 
 </details>
 
 <!-- {{< p5-iframe  lib1="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib2="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/3dbrush.js" width="625" height="475">}} -->
 
-{{< p5-iframe  lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib2="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/handPose.js" width="625" height="475">}}
+<!-- {{< p5-iframe  lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib2="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/handPose.js" width="625" height="475">}} -->
 
-<!-- {{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHand.js" width="625" height="475">}} -->
+{{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHand.js" width="625" height="475">}}
 
 <!-- {{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHoleHand.js" width="625" height="475">}} -->
+
+## **Conclusions & future work**
+
+- Ml5 is viable as a tool as far as 2d plotting is concerned because its data for the 'x' and 'y' axes are quite accurate and stable, however, as far as 3d is concerned the 'z' depth value is quite unstable and not very accurate.
+- We will try to use another way to obtain more precisely the desired depth, maybe something more practical and accurate like using some hardware
+
+## **References**
+
+- [Main Spaces](https://visualcomputing.github.io/docs/scene_trees/main_spaces/)
+- [ml5 handpose](https://learn.ml5js.org/#/reference/handpose)
+
+<!-- {{< p5-iframe sketch="/sketches/brushbasedwithcamera.js" width="630" height="430">}} -->
