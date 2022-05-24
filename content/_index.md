@@ -47,7 +47,7 @@ td, th {
         </div>
     </td>
     <td>
-        <img class="teamMember" src="docs/shortcodes/resources/images/member.png"/>
+        <img class="teamMember" src="docs/shortcodes/resources/images/Diego.jpg"/>
         <div>
             <div><b>Diego Felipe Sánchez Medina</b></div>
             <a href="mailto:dsanchezme@unal.edu.co">dsanchezme@unal.edu.co</a>
