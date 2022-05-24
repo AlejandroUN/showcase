@@ -34,7 +34,7 @@ td, th {
 <table class="teamTable">
  <tr>
     <td>
-        <img class="teamMember" src="docs/shortcodes/resources/images/member.png"/>
+        <img class="teamMember" src="docs/shortcodes/resources/images/Cristian.jpg"/>
         <div>
             <div><b>Cristian Alejandro Chávez Becerra</b></div>
             <a href="mailto:cchavezb@unal.edu.co">cchavezb@unal.edu.co</a>
@@ -63,10 +63,10 @@ td, th {
  <tr></tr>
  <tr>
     <td><p>
-    Descripción del miembro del equipo, intereses, ...
+    Estudiante de Ingeniería de Sistemas y Computación
     <p></td>
     <td><p>
-    Descripción del miembro del equipo, intereses, ...
+    Estudiante de Ingeniería de Sistemas y Computación
     <p></td>
  </tr>
 </table>

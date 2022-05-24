@@ -1,15 +1,3 @@
-// Goal in the 3d Brush is double, to implement:
-// 1. a gesture parser to deal with depth, i.e.,
-// replace the depth slider with somehing really
-// meaningful. You may use a 3d sensor hardware
-// such as: https://en.wikipedia.org/wiki/Leap_Motion
-// or machine learning software to parse hand (or
-// body) gestures from a (video) / image, such as:
-// https://ml5js.org/
-// 2. other brushes to stylize the 3d brush, taking
-// into account its shape and alpha channler, gesture
-// speed, etc.
-
 // Brush controls
 let color;
 let depth;
@@ -27,7 +15,7 @@ let handpose;
 let video;
 let hands = [];
 
-//variables to do calculations to know if the hand is open or closed
+//Variables to do calculations to know if the hand is open or closed
 let zeroPoint = [0,0];
 let onePoint = [0,0];
 let eightPoint = [0,0];
@@ -54,9 +42,7 @@ function setup() {
 
   // brush stuff
   points = [];
-  depth = createSlider(0, 1, 0.05, 0.05);
-  depth.position(10, 10);
-  depth.style('width', '580px');
+  
   color = createColorPicker('#ed225d');
   color.position(width - 70, 40);
   // select initial brush
@@ -73,9 +59,6 @@ function setup() {
   handpose.on("hand", results => {
     hands = results;
   });
-
-  // Hide the video element, and just show the canvas
-  //video.hide();
 }
 
 function draw() {
@@ -93,8 +76,6 @@ function draw() {
     brush(point);
     pop();
   }
-
-  //drawKeypoints();
 }
 
 function modelReady() {
@@ -112,21 +93,16 @@ function update() {
 		if (j == 0) {
 			//El valor de y disminuye cuando la mano sube
 			//Hacia la izquierda de la imagen (en la vida real a la derecha de la persona) el valor de x disminuye, hacia la derecha aumenta
-		  //console.log(keypoint[0])
 		  zeroPoint = [keypoint[0], keypoint[1]];
 		} else if (j == 1) {
 		  onePoint = [keypoint[0], keypoint[1]];
 		} else if (j == 8) {
-		  //eightPoint = [keypoint[0], keypoint[1]];
 		  oneDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
 		} else if (j == 12) {
-		  //twelvePoint = [keypoint[0], keypoint[1]];
 		  twoDifference = (onePoint[0] - keypoint[0]) + (onePoint[1] - keypoint[1])
 		} else if (j == 16) {
-		  //sixteenPoint = [keypoint[0], keypoint[1]];
 		  threeDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
 		} else if (j == 20) {
-		  //twentyPoint = [keypoint[0], keypoint[1]];
 		  fourthDifference = (zeroPoint[0] - zeroPoint[0]) + (onePoint[1] - keypoint[1])
 		}
 		holeDifference = oneDifference + twoDifference + threeDifference + fourthDifference			
@@ -135,8 +111,6 @@ function update() {
 	  let m = map(handDistance, -100, 20, 0, 1);
   let dx = abs(mouseX - pmouseX);
   let dy = abs(mouseY - pmouseY);
-  //console.log("x " + mouseX);
-  //console.log("y " + mouseY);
   speed = constrain((dx + dy) / (2 * (width - height)), 0, 1);
   if (record) {
     points.push({
@@ -171,25 +145,3 @@ function keyPressed() {
     points = [];
   }
 }
-
-// A function to draw ellipses over the detected keypoints
-//function drawKeypoints() {
-//  for (let i = 0; i < hands.length; i += 1) {
-//    const hand = hands[i];
-//	//console.log(i)
-//    for (let j = 0; j < hand.landmarks.length; j += 1) {
-//      const keypoint = hand.landmarks[j];
-//	  //console.log(j)
-//      fill(0, 255, 0);
-//      noStroke();
-//	  //console.log(keypoint[0])
-//	  if (j == 20) {
-//		//depth = keypoint[2]
-//		//console.log(keypoint[2])
-//	  } else {
-//		
-//	  }	  
-//      //ellipse(keypoint[0], keypoint[1], 10, 10);
-//    }
-//  }
-//}
