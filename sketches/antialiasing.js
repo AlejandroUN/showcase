@@ -111,7 +111,7 @@ function draw() {
       translate(-posX*LENGTH, -posY*LENGTH)
       let number = countSubcells()
       noStroke()
-      text(number, mouseX, mouseY)
+      // text(number, mouseX, mouseY)
     }
     // translate(posX, posY)
     
