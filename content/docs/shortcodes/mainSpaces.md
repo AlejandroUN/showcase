@@ -10,9 +10,13 @@ A 3d brush was implemented using the concepts of scene trees using the p5.treegl
 
 Scene trees are a concept used for the spatial and graphical representation of a scene using matrices and a graph representation, more specifically that of a tree as the graph has no cycles.
 
+<img src="../../shortcodes/resources/images/scene.jpg" alt="Scene tree"/>
+
 - #### **Machine Learning**
 
 Machine learning is the use and development of computer systems that are able to learn and adapt without following explicit instructions, by using algorithms and statistical models to analyse and draw inferences from patterns in data.
+
+<img src="../../shortcodes/resources/images/nn.png" alt="Neural Networks"/>
 
 ## **Methods**
 
@@ -29,6 +33,8 @@ To know when the hand is opened and closed and thus vary the radius of the plott
 <img src="../../shortcodes/resources/images/openHand.jpg" alt="Open Hand"/>
 
 ## **Code (solution) & results**
+
+<img src="../../shortcodes/resources/images/hello.jpg" alt="Scene tree"/>
 
 <details>
 <summary>
@@ -193,9 +199,9 @@ function keyPressed() {
 
 <!-- {{< p5-iframe  lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib2="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/handPose.js" width="625" height="475">}} -->
 
-{{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHand.js" width="625" height="475">}}
+<!-- {{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHand.js" width="625" height="475">}} -->
 
-<!-- {{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHoleHand.js" width="625" height="475">}} -->
+{{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHoleHand.js" width="625" height="475">}}
 
 ## **Conclusions & future work**
 
