@@ -1,4 +1,4 @@
-# **Procedural Texturing**
+# Procedural Texturing
 
 ## **Introduction**
 
@@ -27,7 +27,7 @@ Procedrual Texturing
 
 <!-- {{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHand.js" width="625" height="475">}} -->
 
-{{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js" lib3="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/addons/p5.sound.min.js" lib4="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/proceduralTexting.js" width="625" height="475">}}
+{{< p5-iframe sketch="/sketches/workshop3/procedural-texturing.js" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" width="725" height="525">}}
 
 ## **Conclusions & future work**
 
