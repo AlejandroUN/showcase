@@ -1,3 +1,5 @@
 Para el primero hay que mantener activada la cámara y la mano mientras
 que cambiamos de profundidad
 
+hugo server -D --disableFastRender
+
