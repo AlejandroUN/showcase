@@ -3,7 +3,7 @@ let angle = 0
 
 let img;
 function preload() {
-  img = loadImage('../resources/images/texture.png');
+  img = loadImage('../../resources/images/texture.png');
 }
 
 function setup() {

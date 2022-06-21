@@ -7,19 +7,19 @@ let circleColors = [];
 let inputImg, img;
 
 function preload(){
-    img00 = loadImage('../resources/images/ishiharaTest/Ishihara_00.jpg')
-    img01 = loadImage('../resources/images/ishiharaTest/Ishihara_01.jpg')
-    img02 = loadImage('../resources/images/ishiharaTest/Ishihara_02.jpg')
-    img03 = loadImage('../resources/images/ishiharaTest/Ishihara_03.jpg')
-    img04 = loadImage('../resources/images/ishiharaTest/Ishihara_04.jpg')
-    img05 = loadImage('../resources/images/ishiharaTest/Ishihara_05.jpg')
-    img06 = loadImage('../resources/images/ishiharaTest/Ishihara_06.jpg')
-    img07 = loadImage('../resources/images/ishiharaTest/Ishihara_07.jpg')
-    img08 = loadImage('../resources/images/ishiharaTest/Ishihara_08.jpg')
-    img09 = loadImage('../resources/images/ishiharaTest/Ishihara_09.jpg')
-    img10 = loadImage('../resources/images/ishiharaTest/Ishihara_10.jpg')
-    img11 = loadImage('../resources/images/ishiharaTest/Ishihara_11.jpg')
-    img12 = loadImage('../resources/images/ishiharaTest/Ishihara_12.jpg')
+    img00 = loadImage('../../resources/images/ishiharaTest/Ishihara_00.jpg')
+    img01 = loadImage('../../resources/images/ishiharaTest/Ishihara_01.jpg')
+    img02 = loadImage('../../resources/images/ishiharaTest/Ishihara_02.jpg')
+    img03 = loadImage('../../resources/images/ishiharaTest/Ishihara_03.jpg')
+    img04 = loadImage('../../resources/images/ishiharaTest/Ishihara_04.jpg')
+    img05 = loadImage('../../resources/images/ishiharaTest/Ishihara_05.jpg')
+    img06 = loadImage('../../resources/images/ishiharaTest/Ishihara_06.jpg')
+    img07 = loadImage('../../resources/images/ishiharaTest/Ishihara_07.jpg')
+    img08 = loadImage('../../resources/images/ishiharaTest/Ishihara_08.jpg')
+    img09 = loadImage('../../resources/images/ishiharaTest/Ishihara_09.jpg')
+    img10 = loadImage('../../resources/images/ishiharaTest/Ishihara_10.jpg')
+    img11 = loadImage('../../resources/images/ishiharaTest/Ishihara_11.jpg')
+    img12 = loadImage('../../resources/images/ishiharaTest/Ishihara_12.jpg')
 }
 
 function setup() {
