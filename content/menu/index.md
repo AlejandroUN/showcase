@@ -1,20 +1,11 @@
 ---
-headless: true
+headless: false
 ---
 
 - **Shortcodes**
-<!-- - [p5]({{< relref "/docs/shortcodes/p5" >}}) -->
-<!-- - [Buttons]({{< relref "/docs/shortcodes/buttons" >}})
-- [Columns]({{< relref "/docs/shortcodes/columns" >}})
-- [Expand]({{< relref "/docs/shortcodes/expand" >}})
-- [Hints]({{< relref "/docs/shortcodes/hints" >}})
-- [Katex]({{< relref "/docs/shortcodes/katex" >}})
-- [Mermaid]({{< relref "/docs/shortcodes/mermaid" >}})
-- [Tabs]({{< relref "/docs/shortcodes/tabs" >}}) -->
-- [Solids]({{< relref "/docs/shortcodes/solids" >}})
-- [Blindness] ({{< relref "/docs/shortcodes/blindness" >}})
-- [`Main Spaces`] ({{< relref "/docs/shortcodes/mainSpaces" >}})
-- [Rasterization] ({{< relref "/docs/shortcodes/Rasterization" >}})
+- [`Workshop 1`]({{< relref "/docs/shortcodes/Workshop1/blindness" >}})
+- [`Workshop 2`]({{< relref "/docs/shortcodes/Workshop2/Rasterization" >}})
+- [`Workshop 3`]({{< relref "/docs/shortcodes/Workshop3/color-brightness" >}})
 - [LOG] ({{< relref "/docs/shortcodes/log" >}})
 
 <br />
