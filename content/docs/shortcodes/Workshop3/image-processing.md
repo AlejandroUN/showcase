@@ -23,6 +23,8 @@ Image Processing
 
 {{< p5-iframe sketch="/sketches/workshop3/filter.js" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" width="725" height="525">}}
 
+{{< p5-iframe sketch="/sketches/workshop3/filter-ridge.js" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" width="725" height="525">}}
+
 ## **Conclusions & future work**
 
 ## **References**
@@ -31,4 +33,3 @@ Image Processing
 - [ml5 handpose](https://learn.ml5js.org/#/reference/handpose)
 
 <!-- {{< p5-iframe sketch="/sketches/brushbasedwithcamera.js" width="630" height="430">}} -->
-
