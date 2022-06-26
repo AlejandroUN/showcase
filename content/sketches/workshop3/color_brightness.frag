@@ -12,6 +12,12 @@ float luma(vec3 texel) {
   return 0.299 * texel.r + 0.587 * texel.g + 0.114 * texel.b;
 }
 
+// returns luma of given texel
+//vec3 luma(vec3 texel) {
+//  //return 0.299 * texel.r + 0.587 * texel.g + 0.114 * texel.b;
+//  return vec3(texel.r+0.5,texel.g,texel.b);
+//}
+
 float hsl(vec3 texel) {
   return ( max(max(texel.r,texel.g), texel.b) + min(min(texel.r,texel.g), texel.b)) / 2.0;
 }
