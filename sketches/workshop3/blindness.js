@@ -7,8 +7,12 @@ let reset;
 function preload() {
   lumaShader = readShader('/sketches/workshop3/blindness.frag', { varyings: Tree.texcoords2 });
   // image source: https://en.wikipedia.org/wiki/HSL_and_HSV#/media/File:Fire_breathing_2_Luc_Viatour.jpg
-  //img = loadImage('/docs/shortcodes/resources/images/Fire_breathing.jpg');
-  img = loadImage('/docs/shortcodes/resources/images/colors.jpg');
+  img = loadImage('/docs/shortcodes/resources/images/Fire_breathing.jpg');
+  img = loadImage('/docs/shortcodes/resources/images/ishiharaTest/Ishihara_00.jpg');
+  //img = loadImage('/docs/shortcodes/resources/images/colors.jpg');
+  //img = loadImage('/docs/shortcodes/resources/images/rubik.png');
+  //img = loadImage('/docs/shortcodes/resources/images/circuloc.jpg');
+  //img = loadImage('/docs/shortcodes/resources/images/types.jpg');
 }
 
 function setup() {
@@ -21,8 +25,9 @@ function setup() {
   grey_scale.option('2', 'Protanopia');
   grey_scale.option('3', 'Duteranopia');
   grey_scale.option('4', 'Tritanopia');
-  grey_scale.option('5', 'Corrected P');
-  grey_scale.option('6', 'Corrected D');
+  grey_scale.option('5', 'C P');
+  grey_scale.option('6', 'C D');
+  grey_scale.option('7', 'C T');  
   grey_scale.selected('1');
   grey_scale.position(10, 10);
   grey_scale.style('color', 'white');
