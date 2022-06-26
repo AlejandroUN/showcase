@@ -1,45 +1,77 @@
 precision mediump float;
 
+#define MAX_MASK_SIZE 15*15
+
 uniform sampler2D texture;
 uniform vec2 texOffset;
+uniform bool grey_scale;
 // holds the 3x3 kernel
-uniform float mask[9];
+uniform float mask[MAX_MASK_SIZE];
+uniform int maskSize;
 
+uniform float mouseX;
+uniform float mouseY;
+
+uniform bool only_region;
+uniform bool capture;
+uniform float radius;
+
+// uniform vec2 u_resolution;
 // we need our interpolated tex coord
 varying vec2 texcoords2;
 
+float cielab(vec3 XYZ) {
+  float Yn = 100.0;
+  float f;
+  float t = XYZ.y / Yn;
+  if(t > pow(6.0/29.0,3.0)){
+    f = pow(t, 1.0/3.0);
+  }else{
+    f = (t/(3.0 * pow(6.0/29.0, 2.0)))+(4.0/29.0);
+  }
+  return (116.0 * f - 16.0) / 100.0;
+}
+
+vec3 xyz(vec3 texel){
+  texel.r = texel.r > 0.04045 ? pow(( ( texel.r + 0.055 ) / 1.055 ), 2.4) * 100.0 : texel.r / 12.92 * 100.0;
+  texel.g = texel.g > 0.04045 ? pow(( ( texel.g + 0.055 ) / 1.055 ), 2.4) * 100.0 : texel.g / 12.92 * 100.0;
+  texel.b = texel.b > 0.04045 ? pow(( ( texel.b + 0.055 ) / 1.055 ), 2.4) * 100.0 : texel.b / 12.92 * 100.0;
+  float X = texel.r * 0.4124 + texel.g * 0.3576 + texel.b * 0.1805;
+  float Y = texel.r * 0.2126 + texel.g * 0.7152 + texel.b * 0.0722;
+  float Z = texel.r * 0.0193 + texel.g * 0.1192 + texel.b * 0.9505;
+  return vec3(X,Y,Z);
+}
+
 void main() {
-  // 1. Use offset to move along texture space.
-  // In this case to find the texcoords of the texel neighbours.
-  vec2 tc0 = texcoords2 + vec2(-texOffset.s, -texOffset.t);
-  vec2 tc1 = texcoords2 + vec2(         0.0, -texOffset.t);
-  vec2 tc2 = texcoords2 + vec2(+texOffset.s, -texOffset.t);
-  vec2 tc3 = texcoords2 + vec2(-texOffset.s,          0.0);
-  // origin (current fragment texcoords)
-  vec2 tc4 = texcoords2 + vec2(         0.0,          0.0);
-  vec2 tc5 = texcoords2 + vec2(+texOffset.s,          0.0);
-  vec2 tc6 = texcoords2 + vec2(-texOffset.s, +texOffset.t);
-  vec2 tc7 = texcoords2 + vec2(         0.0, +texOffset.t);
-  vec2 tc8 = texcoords2 + vec2(+texOffset.s, +texOffset.t);
 
-  // 2. Sample texel neighbours within the rgba array
-  vec4 rgba[9];
-  rgba[0] = texture2D(texture, tc0);
-  rgba[1] = texture2D(texture, tc1);
-  rgba[2] = texture2D(texture, tc2);
-  rgba[3] = texture2D(texture, tc3);
-  rgba[4] = texture2D(texture, tc4);
-  rgba[5] = texture2D(texture, tc5);
-  rgba[6] = texture2D(texture, tc6);
-  rgba[7] = texture2D(texture, tc7);
-  rgba[8] = texture2D(texture, tc8);
+  // vec2 u_resolution = vec2(1.0, 4.0/3.0);
+  vec2 u_resolution = vec2(1.0, 4.0/3.0);
+  vec2 st = texcoords2/u_resolution;
+  float pct = 0.0;
+  pct = capture ? distance(st,vec2(mouseX, mouseY)/u_resolution) : distance(st,vec2(mouseX, mouseY)/u_resolution);
+  // pct = distance(st,vec2(0.5));
+  // pct = smoothstep(0.1, 0.1, pct);
 
-  // 3. Apply convolution kernel
   vec4 convolution;
-  for (int i = 0; i < 9; i++) {
-    convolution += rgba[i]*mask[i];
+  for (int i = 0; i < MAX_MASK_SIZE*MAX_MASK_SIZE; i++) {
+    if(i > maskSize*maskSize){break;}
+    int i_temp = int(i/maskSize);
+    int j_temp = int(mod(float(i),float(maskSize)));
+    vec2 temp = texcoords2 + vec2(-float(int(maskSize/2))*texOffset.s + float(j_temp)*texOffset.s, -float(int(maskSize/2))*texOffset.t + float(i_temp)*texOffset.t);
+    
+    convolution += texture2D(texture, temp)*mask[i];
   }
 
-  // 4. Set color from convolution
-  gl_FragColor = vec4(convolution.rgb, 1.0); 
+  if (only_region){
+    if (pct <= radius){
+      gl_FragColor = grey_scale ? vec4(vec3(cielab(xyz(convolution.rgb))), 1.0) : vec4(convolution.rgb, 1.0); 
+    }else{
+      gl_FragColor = texture2D(texture, texcoords2);
+    }
+  }else{
+    gl_FragColor = grey_scale ? vec4(vec3(cielab(xyz(convolution.rgb))), 1.0) : vec4(convolution.rgb, 1.0); 
+  }
+  
+  
 }
+
