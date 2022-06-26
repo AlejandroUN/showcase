@@ -1,5 +1,11 @@
 # Color brightness tools
 
+faltan L cones protanopia: red-green. imp red
+
+faltan M cones deuteranopia: red-green. imp green
+
+tritanopia: blue-green, purple-red, yellow-pink. imp blue.
+
 <style>
     iframe div label{
         margin-right: 20px;
