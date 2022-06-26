@@ -30,16 +30,22 @@ float average(vec3 texel) {
   return (texel.r + texel.g + texel.b) / 3.0;
 }
 
-float cielab(vec3 XYZ) {
-  float Yn = 100.0;
-  float f;
-  float t = XYZ.y / Yn;
+float f(float t){
   if(t > pow(6.0/29.0,3.0)){
-    f = pow(t, 1.0/3.0);
-  }else{
-    f = (t/(3.0 * pow(6.0/29.0, 2.0)))+(4.0/29.0);
+    return pow(t, 1.0/3.0);
   }
-  return (116.0 * f - 16.0) / 100.0;
+  return (t/(3.0 * pow(6.0/29.0, 2.0)))+(4.0/29.0);
+}
+
+vec3 cielab(vec3 XYZ) {
+  float Xn = 96.6797;
+  float Yn = 100.0;
+  float Zn = 108.883;
+
+  float L = (116.0 * f(XYZ.y / Yn) - 16.0) / 100.0;
+  float a = (500.0 * (f(XYZ.x / Xn) - f(XYZ.y / Yn))) / 100.0;
+  float b = (200.0 * (f(XYZ.y / Yn) - f(XYZ.z / Zn))) / 100.0;
+  return vec3(L,a,b);
 }
 
 vec3 xyz(vec3 texel){
@@ -65,7 +71,7 @@ void main() {
   }else if(grey_scale == 4) {
     gl_FragColor = vec4((vec3(average(texel.rgb))), 1.0);
   }else if(grey_scale == 2) {
-    gl_FragColor = vec4(vec3(cielab(xyz(texel.rgb))), 1.0);
+    gl_FragColor = vec4(vec3(cielab(xyz(texel.rgb)).x), 1.0);
   }else{
     gl_FragColor = texel;
   }
