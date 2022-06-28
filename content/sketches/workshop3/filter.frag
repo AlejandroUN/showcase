@@ -5,7 +5,7 @@ precision mediump float;
 uniform sampler2D texture;
 uniform vec2 texOffset;
 uniform bool grey_scale;
-// holds the 3x3 kernel
+
 uniform float mask[MAX_MASK_SIZE];
 uniform int maskSize;
 
@@ -16,8 +16,6 @@ uniform bool only_region;
 uniform bool capture;
 uniform float radius;
 
-// uniform vec2 u_resolution;
-// we need our interpolated tex coord
 varying vec2 texcoords2;
 
 float f(float t){
@@ -50,13 +48,10 @@ vec3 xyz(vec3 texel){
 
 void main() {
 
-  // vec2 u_resolution = vec2(1.0, 4.0/3.0);
   vec2 u_resolution = vec2(1.0, 4.0/3.0);
   vec2 st = texcoords2/u_resolution;
   float pct = 0.0;
   pct = capture ? distance(st,vec2(mouseX, mouseY)/u_resolution) : distance(st,vec2(mouseX, mouseY)/u_resolution);
-  // pct = distance(st,vec2(0.5));
-  // pct = smoothstep(0.1, 0.1, pct);
 
   vec4 convolution;
   for (int i = 0; i < MAX_MASK_SIZE*MAX_MASK_SIZE; i++) {

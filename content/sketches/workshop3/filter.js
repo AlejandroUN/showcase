@@ -158,7 +158,7 @@ function draw() {
     const size = blurSize.value()*blurSize.value();
     mask = Array(size).fill(1/size);    
   } else if(filters.value() == 'Sobel'){
-    mask = [-1, 0, 1, -2, 0, 2, -1, 0, 1]
+    // mask = [-1, 0, 1, -2, 0, 2, -1, 0, 1]
     mask = [1, 2, 1, 0, 0, 0, -1, -2, -1]
 
   } else if(filters.value() == 'Custom'){
