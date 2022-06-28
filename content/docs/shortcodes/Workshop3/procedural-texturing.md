@@ -1,43 +1,187 @@
 # Procedural Texturing
 
-## **Introduction**
-
-## **Background**
-
-## **Methods**
-
-## **Code (solution) & results**
+<style>
+iframe{
+    margin: 20px auto;
+    display: table;
+}
+details{
+    margin: 10px 0px;
+}
+</style>
 
 <details>
 <summary>
-Procedrual Texturing
+bricks.frag
 </summary>
 
-```JavaScript:/sketches/brushHand.js
-// Brush controls
+```JavaScript
 
+// Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+vec2 brickTile(vec2 _st, float _zoom){
+    _st *= _zoom;
+
+    // Here is where the offset is happening
+    _st.x += step(1., mod(_st.y,2.0)) * 0.5;
+
+    return fract(_st);
+}
+
+float box(vec2 _st, vec2 _size){
+    _size = vec2(0.5)-_size*0.5;
+    vec2 uv = smoothstep(_size,_size+vec2(1e-4),_st);
+    uv *= smoothstep(_size,_size+vec2(1e-4),vec2(1.0)-_st);
+    return uv.x*uv.y;
+}
+
+void main(void){
+    vec2 st = gl_FragCoord.xy/u_resolution.xy;
+    vec3 color = vec3(0.0);
+
+    // Modern metric brick of 215mm x 102.5mm x 65mm
+    // http://www.jaharrison.me.uk/Brickwork/Sizes.html
+    // st /= vec2(2.15,0.65)/1.5;
+
+    // Apply the brick tiling
+    st = brickTile(st,5.0);
+
+    color = vec3(box(st,vec2(0.9)));
+
+    // Uncomment to see the space coordinates
+    // color = vec3(st,0.0);
+
+    gl_FragColor = vec4(color,1.0);
+}
 
 ```
 
 </details>
 
-<!-- {{< p5-iframe  lib1="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib2="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/3dbrush.js" width="625" height="475">}} -->
+<details>
+<summary>
+diamonds.frag
+</summary>
 
-<!-- {{< p5-iframe  lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib2="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" sketch="/sketches/handPose.js" width="625" height="475">}} -->
+```JavaScript
 
-<!-- {{< p5-iframe lib1="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js" lib3="https://unpkg.com/ml5@latest/dist/ml5.min.js" lib4="https://cdn.jsdelivr.net/gh/freshfork/p5.EasyCam@1.2.1/p5.easycam.js" lib5="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" sketch="/sketches/brushHand.js" width="625" height="475">}} -->
+// Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
 
-{{< p5-iframe sketch="/sketches/workshop3/procedural-texturing.js" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" width="725" height="525">}}
+#ifdef GL_ES
+precision mediump float;
+#endif
 
-{{< p5-iframe sketch="/sketches/workshop3/procedural-texturing-diamonds.js" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" width="725" height="525">}}
+// Copyright (c) Patricio Gonzalez Vivo, 2015 - http://patriciogonzalezvivo.com/
+// I am the sole copyright owner of this Work.
+//
+// You cannot host, display, distribute or share this Work in any form,
+// including physical and digital. You cannot use this Work in any
+// commercial or non-commercial product, website or project. You cannot
+// sell this Work and you cannot mint an NFTs of it.
+// I share this Work for educational purposes, and you can link to it,
+// through an URL, proper attribution and unmodified screenshot, as part
+// of your educational material. If these conditions are too restrictive
+// please contact me and we'll definitely work it out.
 
-{{< p5-iframe sketch="/sketches/workshop3/procedural-texturing-colors.js" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" width="725" height="525">}}
+uniform vec2 u_resolution;
+uniform float u_time;
 
-## **Conclusions & future work**
+#define PI 3.14159265358979323846
+
+vec2 rotate2D(vec2 _st, float _angle){
+    _st -= 0.5;
+    _st =  mat2(cos(_angle),-sin(_angle),
+                sin(_angle),cos(_angle)) * _st;
+    _st += 0.5;
+    return _st;
+}
+
+vec2 tile(vec2 _st, float _zoom){
+    _st *= _zoom;
+    return fract(_st);
+}
+
+float box(vec2 _st, vec2 _size, float _smoothEdges){
+    _size = vec2(0.5)-_size*0.5;
+    vec2 aa = vec2(_smoothEdges*0.5);
+    vec2 uv = smoothstep(_size,_size+aa,_st);
+    uv *= smoothstep(_size,_size+aa,vec2(1.0)-_st);
+    return uv.x*uv.y;
+}
+
+void main(void){
+    vec2 st = gl_FragCoord.xy/u_resolution.xy;
+    vec3 color = vec3(0.0);
+
+    // Divide the space in 4
+    st = tile(st,4.);
+
+    // Use a matrix to rotate the space 45 degrees
+    st = rotate2D(st,PI*0.25);
+
+    // Draw a square
+    color = vec3(box(st,vec2(0.7),0.01));
+
+    // color = vec3(st,0.0);
+
+    gl_FragColor = vec4(color,1.0);
+}
+
+```
+
+</details>
+
+<details>
+<summary>
+colors.frag
+</summary>
+
+```JavaScript
+
+// Author @patriciogv - 2015
+
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+uniform vec2 u_resolution;
+uniform float u_time;
+
+float circle(in vec2 _st, in float _radius){
+    vec2 l = _st-vec2(0.5);
+    return 1.-smoothstep(_radius-(_radius*0.01),
+                         _radius+(_radius*0.01),
+                         dot(l,l)*4.0);
+}
+
+void main() {
+	vec2 st = gl_FragCoord.xy/u_resolution;
+    vec3 color = vec3(0.0);
+
+    st *= 3.0;      // Scale up the space by 3
+    st = fract(st); // Wrap around 1.0
+
+    // Now we have 9 spaces that go from 0-1
+
+    color = vec3(st,0.0);
+    //color = vec3(circle(st,0.5));
+
+	gl_FragColor = vec4(color,1.0);
+}
+
+```
+
+</details>
+
+{{< p5-iframe sketch="/sketches/workshop3/procedural-texturing.js" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.js" width="425" height="455">}}
 
 ## **References**
 
-- [Main Spaces](https://visualcomputing.github.io/docs/scene_trees/main_spaces/)
-- [ml5 handpose](https://learn.ml5js.org/#/reference/handpose)
-
-<!-- {{< p5-iframe sketch="/sketches/brushbasedwithcamera.js" width="630" height="430">}} -->
+- [Patterns](https://thebookofshaders.com/09/)
