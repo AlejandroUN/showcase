@@ -1,7 +1,7 @@
 precision mediump float;
 
 // uniforms are defined and sent by the sketch
-uniform int grey_scale;
+uniform int blindnessType;
 uniform sampler2D texture;
 
 // interpolated texcoord (same name and type as in vertex shader)
@@ -100,19 +100,18 @@ vec3 ctritanopia(vec3 texel) {
 
 void main() {
   // texture2D(texture, texcoords2) samples texture at texcoords2 
-  // and returns the normalized texel color
   vec4 texel = texture2D(texture, texcoords2);
-  if(grey_scale == 3) {
+  if(blindnessType == 3) {
     gl_FragColor = vec4((vec3(duteranopia(texel.rgb))), 1.0);
-  }else if(grey_scale == 6) {
+  }else if(blindnessType == 6) {
     gl_FragColor = vec4((vec3(cduteranopia(texel.rgb))), 1.0);
-  }else if(grey_scale == 7) {
+  }else if(blindnessType == 7) {
     gl_FragColor = vec4((vec3(ctritanopia(texel.rgb))), 1.0);
-  }else if(grey_scale == 5) {
+  }else if(blindnessType == 5) {
     gl_FragColor = vec4((vec3(cprotanopia(texel.rgb))), 1.0);
-  }else if(grey_scale == 4) {
+  }else if(blindnessType == 4) {
     gl_FragColor = vec4((vec3(tritanopia(texel.rgb))), 1.0);
-  }else if(grey_scale == 2) {
+  }else if(blindnessType == 2) {
     gl_FragColor = vec4((vec3(protanopia(texel.rgb))), 1.0);
   }else{
     gl_FragColor = texel;
