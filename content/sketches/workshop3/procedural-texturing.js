@@ -25,7 +25,7 @@ function setup() {
   shaderSelector.option("diamonds")
   shaderSelector.option("colors")
   shaderSelector.selected('bricks');
-  shaderSelector.style('color', 'white')
+  shaderSelector.style('color', 'black')
   shaderSelector.style('font-size', '20px')
 
   shaderSelector.changed(()=>{

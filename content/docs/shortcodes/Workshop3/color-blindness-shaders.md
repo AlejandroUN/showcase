@@ -18,7 +18,21 @@ But it can sometimes cause issues such as:
 
 ## **Background**
 
-#### **Definition**
+#### **Shaders**
+
+Shaders can be used to define the colors of a pixel of an image in parallel.
+
+We can use vertex shaders and fragment shaders using .frag files that will use the glsl language.
+
+Vertex shaders do per vertex parallel processing
+
+<td><img src="../../../shortcodes/resources/images/shaders.jpg" alt="Shaders"/></td>
+
+Fragment shaders do per fragment parallel processing
+
+<td><img src="../../../shortcodes/resources/images/fragShader.png" alt="Fragment Shader"/></td>
+
+#### **Definition of Color Blindness**
 
 Color blindness is a _reduced ability to distinguish between color_ when compared to the standard for normal human color vision. When a person is color blind, also called color vision deficiency (CVD), they usually have difficulty distinguishing between certain colors such as yellow and orange, green and brown, pink and gray, or blue and purple.
 

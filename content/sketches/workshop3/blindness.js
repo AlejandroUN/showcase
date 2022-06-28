@@ -30,7 +30,7 @@ function setup() {
   blindnessType.option('7', 'Correct Tritanopia');  
   blindnessType.selected('1');
   blindnessType.position(10, 10);
-  blindnessType.style('color', 'white');
+  blindnessType.style('color', 'black');
   blindnessType.changed(() => correctorShader.setUniform('blindnessType', blindnessType.value()));
 
   reset = createButton("Reset")
