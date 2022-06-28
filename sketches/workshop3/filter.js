@@ -37,14 +37,14 @@ function setup() {
   filters.option('Custom')
   filters.position(10, 545);
   // filters.style('width', '80px')
-  filters.style('color', 'white');
+  filters.style('color', 'black');
   filters.selected('Normal')
   
   filters.changed(()=>{    
     if(filters.value() == 'Custom'){
       label = createP("Mask side");
       label.position(15, 570);
-      label.style('color', 'white');
+      label.style('color', 'black');
       maskSizeSlider = createSlider(3, 15, 3, 2);
       maskSizeSlider.position(10, 605)
       maskSizeSlider.changed(()=>{
@@ -81,7 +81,7 @@ function setup() {
 
   captureInput = createCheckbox("Camera", false);
   captureInput.position(350, 545);
-  captureInput.style("color", "white");
+  captureInput.style("color", "black");
   captureInput.changed(() => {
     if(captureInput.checked()){
       capture = createCapture(VIDEO);
@@ -96,14 +96,14 @@ function setup() {
 
   greyScaleInput = createCheckbox("Grey scale", false);
   greyScaleInput.position(440, 545);
-  greyScaleInput.style("color", "white");
+  greyScaleInput.style("color", "black");
   greyScaleInput.changed(() => {
     filterShader.setUniform('grey_scale', greyScaleInput.checked());
   }) 
 
   regionInput = createCheckbox("Only region", false);
   regionInput.position(550, 545);
-  regionInput.style("color", "white");
+  regionInput.style("color", "black");
   regionInput.changed(() => {
     
     filterShader.setUniform('only_region', regionInput.checked());    
