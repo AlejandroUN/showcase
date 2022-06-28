@@ -1,14 +1,153 @@
-<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content=" Image processing # Introduction # Background # Methods # Code (solution) & results # Image Processing // Brush controls Conclusions & future work # References # Main Spaces ml5 handpose "><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content=" Image processing # Introduction # Background # Methods # Code (solution) & results # Image Processing // Brush controls Conclusions & future work # References # Main Spaces ml5 handpose "><meta property="og:type" content="article"><meta property="og:url" content="https://AlejandroUN.github.io/docs/shortcodes/Workshop3/image-processing/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-06-25T19:59:26-05:00"><title>Image Processing | Visual Computing</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script>
-<script defer src=/en.search.min.f41f6674a7aae8dfbaa7a1387b55947dcd344e103904bf14e7209a147f2e6cef.js integrity="sha256-9B9mdKeq6N+6p6E4e1WUfc00ThA5BL8U5yCaFH8ubO8=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Image processing # Introduction # Filtering is a technique for modifying or enhancing an image. For example, you can filter an image to emphasize certain features or remove other features. Image processing operations implemented with filtering include smoothing, sharpening, and edge enhancement. [1]
+The value of any given pixel in the output image is determined by applying some algorithm to the values of the pixels in the neighborhood of the corresponding input pixel."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Image processing # Introduction # Filtering is a technique for modifying or enhancing an image. For example, you can filter an image to emphasize certain features or remove other features. Image processing operations implemented with filtering include smoothing, sharpening, and edge enhancement. [1]
+The value of any given pixel in the output image is determined by applying some algorithm to the values of the pixels in the neighborhood of the corresponding input pixel."><meta property="og:type" content="article"><meta property="og:url" content="https://AlejandroUN.github.io/docs/shortcodes/Workshop3/image-processing/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2022-06-28T07:23:11-05:00"><title>Image Processing | Visual Computing</title><link rel=manifest href=/manifest.json><link rel=icon href=/favicon.png type=image/x-icon><link rel=stylesheet href=/book.min.ab46de3e725a6415339a37bba23a0067534a37289b063c9f8d011515a63097a8.css integrity="sha256-q0bePnJaZBUzmje7ojoAZ1NKNyibBjyfjQEVFaYwl6g=" crossorigin=anonymous><script defer src=/flexsearch.min.js></script>
+<script defer src=/en.search.min.f11fe8a88f469f5d1398ee1ee775894fdc27ff8a2e8b1bf745673a92a47a10f0.js integrity="sha256-8R/oqI9Gn10TmO4e53WJT9wn/4ouixv3RWc6kqR6EPA=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
 <input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/><span>Visual Computing</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li class=book-section-flat><span>Shortcodes</span><ul><li><a href=/docs/shortcodes/log/>Log</a></li><li><a href=/docs/shortcodes/Workshop1/blindness/>Blindness</a></li><li><a href=/docs/shortcodes/Workshop1/solids/>Solids</a></li><li><a href=/docs/shortcodes/Workshop2/mainSpaces/>Main Spaces</a></li><li><a href=/docs/shortcodes/Workshop2/Rasterization/>Rasterization</a></li><li><a href=/docs/shortcodes/Workshop3/color-blindness-shaders/>Color Blindness Shaders</a></li><li><a href=/docs/shortcodes/Workshop3/color-brightness/>Color Brightness</a></li><li><a href=/docs/shortcodes/Workshop3/image-processing/ class=active>Image Processing</a></li><li><a href=/docs/shortcodes/Workshop3/procedural-texturing/>Procedural Texturing</a></li><li><a href=/docs/shortcodes/Workshop3/test/>Test</a></li><li><a href=/docs/shortcodes/Workshop3/uv-visualization/>Uv Visualization</a></li></ul></li></ul><ul><li><a href=/posts/>Blog</a></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/svg/menu.svg class=book-icon alt=Menu></label>
 <strong>Image Processing</strong>
-<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#image-processing>Image processing</a><ul><li><a href=#introduction><strong>Introduction</strong></a></li><li><a href=#background><strong>Background</strong></a></li><li><a href=#methods><strong>Methods</strong></a></li><li><a href=#code-solution--results><strong>Code (solution) & results</strong></a></li><li><a href=#conclusions--future-work><strong>Conclusions & future work</strong></a></li><li><a href=#references><strong>References</strong></a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=image-processing>Image processing
-<a class=anchor href=#image-processing>#</a></h1><h2 id=introduction><strong>Introduction</strong>
-<a class=anchor href=#introduction>#</a></h2><h2 id=background><strong>Background</strong>
-<a class=anchor href=#background>#</a></h2><h2 id=methods><strong>Methods</strong>
-<a class=anchor href=#methods>#</a></h2><h2 id=code-solution--results><strong>Code (solution) & results</strong>
-<a class=anchor href=#code-solution--results>#</a></h2><details><summary>Image Processing</summary><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript:/sketches/brushHand.js data-lang=JavaScript:/sketches/brushHand.js><span style=display:flex><span><span style=color:#75715e>// Brush controls
-</span></span></span></code></pre></div></details><iframe id=filter style=width:725px;height:725px srcdoc="
+<label for=toc-control><img src=/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#image-processing>Image processing</a><ul><li><a href=#introduction><strong>Introduction</strong></a></li><li><a href=#background><strong>Background</strong></a><ul><li><a href=#kernel><strong>Kernel</strong></a></li><li><a href=#convolution><strong>Convolution</strong></a></li></ul></li><li><a href=#methods><strong>Methods</strong></a><ul><li><a href=#identity><strong>Identity</strong></a></li><li><a href=#ridge-detection><strong>Ridge detection</strong></a></li><li><a href=#box-blur-4httpsaishackintutorialsimage-convolution-examples><strong>Box Blur</strong> <a href=https://aishack.in/tutorials/image-convolution-examples/>[4]</a></a></li><li><a href=#sobel><strong>Sobel</strong></a></li><li><a href=#sharpen><strong>Sharpen</strong></a></li></ul></li><li><a href=#code-solution--results><strong>Code (solution) & results</strong></a></li><li><a href=#conclusions--future-work><strong>Conclusions & future work</strong></a></li><li><a href=#references><strong>References</strong></a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=image-processing>Image processing
+<a class=anchor href=#image-processing>#</a></h1><style>.img-center{display:block;margin:auto;border:10px solid #fff}.img-right{width:180px;float:right;margin-left:100px}.parent{margin:20px 0;display:flex;justify-content:center;align-items:center}iframe{margin:20px auto;display:table}</style><h2 id=introduction><strong>Introduction</strong>
+<a class=anchor href=#introduction>#</a></h2><p>Filtering is a technique for modifying or enhancing an image. For example, you can filter an image to emphasize certain features or remove other features. Image processing operations implemented with filtering include smoothing, sharpening, and edge enhancement. <a href=https://www.mathworks.com/help/images/what-is-image-filtering-in-the-spatial-domain.html>[1]</a></p><p>The value of any given pixel in the output image is determined by applying some algorithm to the values of the pixels in the neighborhood of the corresponding input pixel. A pixel&rsquo;s neighborhood is some set of pixels, defined by their locations relative to that pixel.</p><h2 id=background><strong>Background</strong>
+<a class=anchor href=#background>#</a></h2><h3 id=kernel><strong>Kernel</strong>
+<a class=anchor href=#kernel>#</a></h3><p>In image processing, a kernel, convolution matrix, or mask is a small matrix used for blurring, sharpening, embossing, edge detection, and more. This is accomplished by doing a convolution between the kernel and an image. <a href=https://en.wikipedia.org/wiki/Kernel_%28image_processing%29>[2]</a></p><blockquote><p><strong>Example:</strong>
+Sharpen Filter
+<link rel=stylesheet href=/katex/katex.min.css><script defer src=/katex/katex.min.js></script>
+<script defer src=/katex/auto-render.min.js onload=renderMathInElement(document.body)></script><span>
+\[
+\begin{bmatrix}
+\ \ 0 & -1 & \ \ 0 \\
+-1 & \ \ 5 & -1 \\
+\ \ 0 & -1 & \ \ 0
+\end{bmatrix}
+\]</span></p></blockquote><h3 id=convolution><strong>Convolution</strong>
+<a class=anchor href=#convolution>#</a></h3><p>Convolution is the process of adding each element of the image to its local neighbors, weighted by the kernel. <a href=https://medium.com/@bdhuma/6-basic-things-to-know-about-convolution-daef5e1bc411>[3]</a></p><div><img class=img-center src=../../resources/images/imageProcessing/convolution.png></div><h2 id=methods><strong>Methods</strong>
+<a class=anchor href=#methods>#</a></h2><h3 id=identity><strong>Identity</strong>
+<a class=anchor href=#identity>#</a></h3><div class=parent><span>\(
+{\displaystyle {\begin{bmatrix}\ \ 0&\ \ 0&\ \ 0\\\ \ 0&\ \ 1&\ \ 0\\\ \ 0&\ \ 0&\ \ 0\end{bmatrix}}}
+\)</span>
+<img class=img-right src=../../resources/images/imageProcessing/identity.png></div><h3 id=ridge-detection><strong>Ridge detection</strong>
+<a class=anchor href=#ridge-detection>#</a></h3><div class=parent><span>\(
+{\displaystyle {
+\begin{bmatrix}
+-1 & -1 & -1 \\
+-1 & \ \ 8 & -1 \\
+-1 & -1 & -1
+\end{bmatrix}
+}}
+\)</span>
+<img class=img-right src=../../resources/images/imageProcessing/ridges.png></div><h3 id=box-blur-4httpsaishackintutorialsimage-convolution-examples><strong>Box Blur</strong> <a href=https://aishack.in/tutorials/image-convolution-examples/>[4]</a>
+<a class=anchor href=#box-blur-4httpsaishackintutorialsimage-convolution-examples>#</a></h3><div class=parent><span>\(
+{\displaystyle {\frac {1}{9}}{\begin{bmatrix}\ \ 1&\ \ 1&\ \ 1\\\ \ 1&\ \ 1&\ \ 1\\\ \ 1&\ \ 1&\ \ 1\end{bmatrix}}}
+\)</span>
+<img class=img-right src=../../resources/images/imageProcessing/blur3x3.png></div><div class=parent><span>\(
+{\displaystyle {
+{\frac {1}{n*n}}
+\begin{bmatrix}
+1 & 1 & \dots & 1 \\
+\vdots & \vdots & \ddots & \vdots \\
+1 & 1 & \dots & 1
+\end{bmatrix}_{n\times n}
+}}
+\)</span>
+<img class=img-right src=../../resources/images/imageProcessing/blur15x15.png></div><h3 id=sobel><strong>Sobel</strong>
+<a class=anchor href=#sobel>#</a></h3><div class=parent><span>\(
+{\displaystyle {
+\begin{bmatrix}
+1 & 2 & 1 \\
+0 & 0 & 0 \\
+-1 & -2 & -1
+\end{bmatrix}
+}}
+\)</span>
+<img class=img-right src=../../resources/images/imageProcessing/sobel.png></div><h3 id=sharpen><strong>Sharpen</strong>
+<a class=anchor href=#sharpen>#</a></h3><div class=parent><span>\(
+{\displaystyle {
+\begin{bmatrix}
+\ \ 0 & -1 & \ \ 0 \\
+-1 & \ \ 5 & -1 \\
+\ \ 0 & -1 & \ \ 0
+\end{bmatrix}
+}}
+\)</span>
+<img class=img-right src=../../resources/images/imageProcessing/sharpen.png></div><h2 id=code-solution--results><strong>Code (solution) & results</strong>
+<a class=anchor href=#code-solution--results>#</a></h2><details><summary>Image Processing - Fragment shader</summary><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript:/sketches/workshop3/filter.frag data-lang=JavaScript:/sketches/workshop3/filter.frag><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>precision</span> <span style=color:#66d9ef>mediump</span> <span style=color:#66d9ef>float</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#define MAX_MASK_SIZE 15*15</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>sampler2D</span> texture;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>vec2</span> texOffset;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>bool</span> grey_scale;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>float</span> mask[MAX_MASK_SIZE];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>int</span> maskSize;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>float</span> mouseX;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>float</span> mouseY;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>bool</span> only_region;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>bool</span> capture;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>float</span> radius;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>varying</span> <span style=color:#66d9ef>vec2</span> texcoords2;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>float</span> f(<span style=color:#66d9ef>float</span> t){
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span>(t <span style=color:#f92672>&gt;</span> pow(<span style=color:#ae81ff>6.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>29.0</span>,<span style=color:#ae81ff>3.0</span>)){
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> pow(t, <span style=color:#ae81ff>1.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>3.0</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> (t<span style=color:#f92672>/</span>(<span style=color:#ae81ff>3.0</span> <span style=color:#f92672>*</span> pow(<span style=color:#ae81ff>6.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>29.0</span>, <span style=color:#ae81ff>2.0</span>)))<span style=color:#f92672>+</span>(<span style=color:#ae81ff>4.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>29.0</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>vec3</span> cielab(<span style=color:#66d9ef>vec3</span> XYZ) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> Xn <span style=color:#f92672>=</span> <span style=color:#ae81ff>96.6797</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> Yn <span style=color:#f92672>=</span> <span style=color:#ae81ff>100.0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> Zn <span style=color:#f92672>=</span> <span style=color:#ae81ff>108.883</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> L <span style=color:#f92672>=</span> (<span style=color:#ae81ff>116.0</span> <span style=color:#f92672>*</span> f(XYZ.y <span style=color:#f92672>/</span> Yn) <span style=color:#f92672>-</span> <span style=color:#ae81ff>16.0</span>) <span style=color:#f92672>/</span> <span style=color:#ae81ff>100.0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> a <span style=color:#f92672>=</span> (<span style=color:#ae81ff>500.0</span> <span style=color:#f92672>*</span> (f(XYZ.x <span style=color:#f92672>/</span> Xn) <span style=color:#f92672>-</span> f(XYZ.y <span style=color:#f92672>/</span> Yn))) <span style=color:#f92672>/</span> <span style=color:#ae81ff>100.0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> b <span style=color:#f92672>=</span> (<span style=color:#ae81ff>200.0</span> <span style=color:#f92672>*</span> (f(XYZ.y <span style=color:#f92672>/</span> Yn) <span style=color:#f92672>-</span> f(XYZ.z <span style=color:#f92672>/</span> Zn))) <span style=color:#f92672>/</span> <span style=color:#ae81ff>100.0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>vec3</span>(L,a,b);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>vec3</span> xyz(<span style=color:#66d9ef>vec3</span> texel){
+</span></span><span style=display:flex><span>  texel.r <span style=color:#f92672>=</span> texel.r <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0.04045</span> <span style=color:#f92672>?</span> pow(( ( texel.r <span style=color:#f92672>+</span> <span style=color:#ae81ff>0.055</span> ) <span style=color:#f92672>/</span> <span style=color:#ae81ff>1.055</span> ), <span style=color:#ae81ff>2.4</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>100.0</span> <span style=color:#f92672>:</span> texel.r <span style=color:#f92672>/</span> <span style=color:#ae81ff>12.92</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>100.0</span>;
+</span></span><span style=display:flex><span>  texel.g <span style=color:#f92672>=</span> texel.g <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0.04045</span> <span style=color:#f92672>?</span> pow(( ( texel.g <span style=color:#f92672>+</span> <span style=color:#ae81ff>0.055</span> ) <span style=color:#f92672>/</span> <span style=color:#ae81ff>1.055</span> ), <span style=color:#ae81ff>2.4</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>100.0</span> <span style=color:#f92672>:</span> texel.g <span style=color:#f92672>/</span> <span style=color:#ae81ff>12.92</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>100.0</span>;
+</span></span><span style=display:flex><span>  texel.b <span style=color:#f92672>=</span> texel.b <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0.04045</span> <span style=color:#f92672>?</span> pow(( ( texel.b <span style=color:#f92672>+</span> <span style=color:#ae81ff>0.055</span> ) <span style=color:#f92672>/</span> <span style=color:#ae81ff>1.055</span> ), <span style=color:#ae81ff>2.4</span>) <span style=color:#f92672>*</span> <span style=color:#ae81ff>100.0</span> <span style=color:#f92672>:</span> texel.b <span style=color:#f92672>/</span> <span style=color:#ae81ff>12.92</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>100.0</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> X <span style=color:#f92672>=</span> texel.r <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.4124</span> <span style=color:#f92672>+</span> texel.g <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.3576</span> <span style=color:#f92672>+</span> texel.b <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.1805</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> Y <span style=color:#f92672>=</span> texel.r <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.2126</span> <span style=color:#f92672>+</span> texel.g <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.7152</span> <span style=color:#f92672>+</span> texel.b <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.0722</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> Z <span style=color:#f92672>=</span> texel.r <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.0193</span> <span style=color:#f92672>+</span> texel.g <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.1192</span> <span style=color:#f92672>+</span> texel.b <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.9505</span>;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>vec3</span>(X,Y,Z);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>void</span> main() {
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>vec2</span> u_resolution <span style=color:#f92672>=</span> <span style=color:#66d9ef>vec2</span>(<span style=color:#ae81ff>1.0</span>, <span style=color:#ae81ff>4.0</span><span style=color:#f92672>/</span><span style=color:#ae81ff>3.0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>vec2</span> st <span style=color:#f92672>=</span> texcoords2<span style=color:#f92672>/</span>u_resolution;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>float</span> pct <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.0</span>;
+</span></span><span style=display:flex><span>  pct <span style=color:#f92672>=</span> capture <span style=color:#f92672>?</span> distance(st,<span style=color:#66d9ef>vec2</span>(mouseX, mouseY)<span style=color:#f92672>/</span>u_resolution) <span style=color:#f92672>:</span> distance(st,<span style=color:#66d9ef>vec2</span>(mouseX, mouseY)<span style=color:#f92672>/</span>u_resolution);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>vec4</span> convolution;
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; i <span style=color:#f92672>&lt;</span> MAX_MASK_SIZE<span style=color:#f92672>*</span>MAX_MASK_SIZE; i<span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span>(i <span style=color:#f92672>&gt;</span> maskSize<span style=color:#f92672>*</span>maskSize){<span style=color:#66d9ef>break</span>;}
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>int</span> i_temp <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(i<span style=color:#f92672>/</span>maskSize);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>int</span> j_temp <span style=color:#f92672>=</span> <span style=color:#66d9ef>int</span>(mod(<span style=color:#66d9ef>float</span>(i),<span style=color:#66d9ef>float</span>(maskSize)));
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> temp <span style=color:#f92672>=</span> texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(<span style=color:#f92672>-</span><span style=color:#66d9ef>float</span>(<span style=color:#66d9ef>int</span>(maskSize<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>))<span style=color:#f92672>*</span>texOffset.s <span style=color:#f92672>+</span> <span style=color:#66d9ef>float</span>(j_temp)<span style=color:#f92672>*</span>texOffset.s, <span style=color:#f92672>-</span><span style=color:#66d9ef>float</span>(<span style=color:#66d9ef>int</span>(maskSize<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>))<span style=color:#f92672>*</span>texOffset.t <span style=color:#f92672>+</span> <span style=color:#66d9ef>float</span>(i_temp)<span style=color:#f92672>*</span>texOffset.t);
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    convolution <span style=color:#f92672>+=</span> texture2D(texture, temp)<span style=color:#f92672>*</span>mask[i];
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (only_region){
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (pct <span style=color:#f92672>&lt;=</span> radius){
+</span></span><span style=display:flex><span>      gl_FragColor <span style=color:#f92672>=</span> grey_scale <span style=color:#f92672>?</span> <span style=color:#66d9ef>vec4</span>(<span style=color:#66d9ef>vec3</span>(cielab(xyz(convolution.rgb)).x), <span style=color:#ae81ff>1.0</span>) <span style=color:#f92672>:</span> <span style=color:#66d9ef>vec4</span>(convolution.rgb, <span style=color:#ae81ff>1.0</span>); 
+</span></span><span style=display:flex><span>    }<span style=color:#66d9ef>else</span>{
+</span></span><span style=display:flex><span>      gl_FragColor <span style=color:#f92672>=</span> texture2D(texture, texcoords2);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }<span style=color:#66d9ef>else</span>{
+</span></span><span style=display:flex><span>    gl_FragColor <span style=color:#f92672>=</span> grey_scale <span style=color:#f92672>?</span> <span style=color:#66d9ef>vec4</span>(<span style=color:#66d9ef>vec3</span>(cielab(xyz(convolution.rgb)).x), <span style=color:#ae81ff>1.0</span>) <span style=color:#f92672>:</span> <span style=color:#66d9ef>vec4</span>(convolution.rgb, <span style=color:#ae81ff>1.0</span>); 
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></details><iframe id=filter style=width:725px;height:725px srcdoc="
         <!DOCTYPE html>
         <html>
           <head>
@@ -25,6 +164,6 @@
           </body>
         </html>
       "></iframe><h2 id=conclusions--future-work><strong>Conclusions & future work</strong>
-<a class=anchor href=#conclusions--future-work>#</a></h2><h2 id=references><strong>References</strong>
-<a class=anchor href=#references>#</a></h2><ul><li><a href=https://visualcomputing.github.io/docs/scene_trees/main_spaces/>Main Spaces</a></li><li><a href=https://learn.ml5js.org/#/reference/handpose>ml5 handpose</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AlejandroUN//commit/96db7c7670dcc7b423e80825ca51693d3392d96f title='Last modified by Diego | June 26, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
-<span>June 26, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#image-processing>Image processing</a><ul><li><a href=#introduction><strong>Introduction</strong></a></li><li><a href=#background><strong>Background</strong></a></li><li><a href=#methods><strong>Methods</strong></a></li><li><a href=#code-solution--results><strong>Code (solution) & results</strong></a></li><li><a href=#conclusions--future-work><strong>Conclusions & future work</strong></a></li><li><a href=#references><strong>References</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
+<a class=anchor href=#conclusions--future-work>#</a></h2><p>As future work, it would be nice to implement more complex image filters and improve interface features to provide a better user experience. Also, implement the same image filters sequentially to compare performance and highlight all the gains from doing it in parallel.</p><h2 id=references><strong>References</strong>
+<a class=anchor href=#references>#</a></h2><ul><li>[1] <a href=https://www.mathworks.com/help/images/what-is-image-filtering-in-the-spatial-domain.html>Image Filtering in the Spatial Domain</a></li><li>[2] <a href=https://en.wikipedia.org/wiki/Kernel_%28image_processing%29>Kernel (image processing)</a></li><li>[3] <a href=https://medium.com/@bdhuma/6-basic-things-to-know-about-convolution-daef5e1bc411>6 basic things to know about Convolution</a></li><li>[4] <a href=https://aishack.in/tutorials/image-convolution-examples/>Image convolution examples</a></li></ul></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/AlejandroUN//commit/b48777c626bb9e9e2f3e256416307af54098b1ae title='Last modified by Diego | June 28, 2022' target=_blank rel=noopener><img src=/svg/calendar.svg class=book-icon alt=Calendar>
+<span>June 28, 2022</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#image-processing>Image processing</a><ul><li><a href=#introduction><strong>Introduction</strong></a></li><li><a href=#background><strong>Background</strong></a><ul><li><a href=#kernel><strong>Kernel</strong></a></li><li><a href=#convolution><strong>Convolution</strong></a></li></ul></li><li><a href=#methods><strong>Methods</strong></a><ul><li><a href=#identity><strong>Identity</strong></a></li><li><a href=#ridge-detection><strong>Ridge detection</strong></a></li><li><a href=#box-blur-4httpsaishackintutorialsimage-convolution-examples><strong>Box Blur</strong> <a href=https://aishack.in/tutorials/image-convolution-examples/>[4]</a></a></li><li><a href=#sobel><strong>Sobel</strong></a></li><li><a href=#sharpen><strong>Sharpen</strong></a></li></ul></li><li><a href=#code-solution--results><strong>Code (solution) & results</strong></a></li><li><a href=#conclusions--future-work><strong>Conclusions & future work</strong></a></li><li><a href=#references><strong>References</strong></a></li></ul></li></ul></nav></div></aside></main></body></html>
