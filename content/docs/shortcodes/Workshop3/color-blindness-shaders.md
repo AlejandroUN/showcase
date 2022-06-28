@@ -70,6 +70,7 @@ The LMS algorithm in the developed application is implemented for Protanopia, Du
 1. Convert RGB image to LMS color space using equation
 
 <td><img src="../../../shortcodes/resources/images/LMSalgorithm/1.jpg" alt="First step"/></td>
+<td><img src="../../../shortcodes/resources/images/LMS.svg" alt="LMS"/></td>
 
 2. Simulate color-blindness using equation for Protanopia, for Deuteranopia and for Tritanopia
 
